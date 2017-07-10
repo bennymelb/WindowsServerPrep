@@ -13,10 +13,13 @@ set source="https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.4.3
 set workdir=%~dp0
 cd /d %workdir%
 
+:: Set the bin location
+set bin=%workdir%/bin
+
 :: Download the package
 set destination="filebeat.zip"
 echo "Downloading %source%"
-powershell.exe -ExecutionPolicy Bypass -file wget.ps1 -source %source% %destination%
+powershell.exe -ExecutionPolicy Bypass -file %bin%/wget.ps1 -source %source% %destination%
 
 :: Extract the zip file, we expect winrar is installed on the system as this is baseline config for intouch server
 :: Check the Winrar path
@@ -42,7 +45,7 @@ if %winrarexist% equ 1 (
 )
 :: If winrar is not found, use the windows built in extract file from zip
 if %winrarexist% equ 0 (	
-	powershell.exe -ExecutionPolicy UnRestricted -File unzip.ps1 -zipfile %zipfile% -destination temp
+	powershell.exe -ExecutionPolicy UnRestricted -File %bin%/unzip.ps1 -zipfile %zipfile% -destination temp
 )
 
 
